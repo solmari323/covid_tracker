@@ -1,14 +1,14 @@
 <template>
   <div class="card" :class="colour" >
       <div class="country">
-        <span class="flag-icon flag-icon-us"></span>
-        <p>USA</p>
+        <span class="flag-icon" :class="`flag-icon-${country_code}`"></span>
+        <p>{{ country.replace('-', ' ') }}</p>
       </div>
       <p class="number">100.2k</p>
       <TrendChart
   :datasets="[
     {
-      data: [10, 50, 20, 100, 40, 60, 80],
+      data: graph_data,
       smooth: true,
       padding: 0,
       stroke:true,
@@ -33,11 +33,29 @@
 </template>
 
 <script>
+import {getCountryData} from "../api";
+
 export default {
     name: "CountryCard",
     props: {
         colour: String,
+        country: String,
     },
+    data() {
+        return {
+            graph_data: [10, 50, 20, 100, 40, 60, 80],
+            country_code: "",
+        };
+    },
+    created() {
+        getCountryData(this.country).then(response => {
+            this.graph_data = response.data.filter(obj => obj.Province == "").map(obj => obj.Cases)
+            //this.graph_data = this.graph_data.slice(Math.max(this.graph_data.length - 200, 1));
+            this.country_code = response.data[0].CountryCode.toLowerCase();
+        }).catch(() => {
+            console.error("Failed to get data for the country " + this.country);
+        });
+    }
 }
 </script>
 
@@ -80,6 +98,9 @@ export default {
 .country p {
     margin-left: 5px;
     color: white;
+    text-transform: capitalize;
+    max-width: 60%;
+    text-align: center;
 }
 
 

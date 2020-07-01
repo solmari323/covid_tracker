@@ -17,9 +17,9 @@
     <Tabs/>
 
     <CountryList>
-        <CountryCard colour="primary"></CountryCard>
-        <CountryCard colour="secondary"></CountryCard>
-        <CountryCard colour="tertiary"></CountryCard>
+        <CountryCard colour="primary" country="united-kingdom"></CountryCard>
+        <CountryCard colour="secondary" country="japan"></CountryCard>
+        <CountryCard colour="tertiary" country="germany"></CountryCard>
     </CountryList>
 
   </div>
