@@ -1,8 +1,8 @@
 <template>
   <li class="to-do-tile">
       <label class="b-contain">
-        <span>First checkbox</span>
-        <input type="checkbox">
+        <span :class="{completed:isCompleted}">{{todo}}</span>
+        <input type="checkbox" :checked="isCompleted===true" @click="$emit('check-todo',id)">
         <div class="b-input"></div>
       </label>
   </li>
@@ -10,8 +10,12 @@
 
 <script>
 export default {
-    name:"ToDo",
-    
+	name:"ToDo",
+	props: {
+		id: Number,
+		todo: String,
+		isCompleted: Boolean,
+	},    
 }
 </script>
 
@@ -27,6 +31,11 @@ export default {
     border: 1px solid #9BD8CD;
     border-radius: 10px;
   }
+
+	.completed {
+		text-decoration: line-through;
+	}
+
 
   .to-do-tile span {
     margin: 2px;

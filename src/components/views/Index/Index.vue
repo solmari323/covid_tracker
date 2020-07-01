@@ -8,10 +8,7 @@
         </div>
       </div>
 
-    <ToDos>
-        <ToDo></ToDo>
-        <ToDo></ToDo>
-        <ToDo></ToDo>
+    <ToDos :todos ="todos" @check-todo=markComplete>
     </ToDos>
 
     <Tabs/>
@@ -28,13 +25,33 @@
 <script>
 import CountryList from "./components/CountryList"
 import CountryCard from "./components/CountryCard"
-import ToDo from "./components/ToDo"
 import ToDos from "./components/ToDos"
 import Tabs from "../../utils/Tabs"
 export default {
     name:"Index",
-    components: { CountryList, CountryCard, ToDo, ToDos, Tabs},
-    methods: {},
+    components: { CountryList, CountryCard, ToDos, Tabs},
+    data: function () {
+        return {
+            todos:[{
+                id:0,
+                todo: "Make Bread",
+                completed: false,
+            },{
+                id:1,
+                todo: "Do Code",
+                completed: true,
+            },{
+                id:2,
+                todo: "Watch Netflix",
+                completed: false,
+            }]
+        }
+    },
+    methods: {
+        markComplete(id) {
+            this.todos[id].completed = !this.todos[id].completed;
+        }
+    },
 }
 </script>
 
