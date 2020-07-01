@@ -58,6 +58,8 @@ export default {
                 return this.graph_number;
             } else if (1000000 > this.graph_number) {
                 return `${Math.round(this.graph_number / 100) / 10}K`;
+            } else if (1000000000 > this.graph_number) {
+                return `${Math.round(this.graph_number / 10000) / 100}M`;
             }
             return this.graph_number;
         },
@@ -65,7 +67,7 @@ export default {
     methods: {
         loadGraph() {
             getCountryData(this.country, this.graph_type).then(response => {
-                this.graph_data = response.data.filter(obj => obj.Province == "").map(obj => obj.Cases);
+                this.graph_data = response.data.filter(obj => obj.Province === "").map(obj => obj.Cases);
                 //this.graph_data = this.graph_data.slice(Math.max(this.graph_data.length - 200, 1));
                 this.graph_number = Math.max(...this.graph_data);
                 this.country_code = response.data[0].CountryCode.toLowerCase();

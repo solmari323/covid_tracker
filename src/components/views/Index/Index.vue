@@ -14,9 +14,7 @@
     <Tabs @change="v => { graph_type = v }"/>
 
     <CountryList>
-        <CountryCard colour="primary" country="united-kingdom" :graph_type="graph_type"></CountryCard>
-        <CountryCard colour="secondary" country="japan" :graph_type="graph_type"></CountryCard>
-        <CountryCard colour="tertiary" country="germany" :graph_type="graph_type"></CountryCard>
+        <CountryCard v-for="(country, index) in country_list" :key="index" :colour="colours[index]" :country="country" :graph_type="graph_type"></CountryCard>
     </CountryList>
 
   </div>
@@ -27,6 +25,7 @@ import CountryList from "./components/CountryList"
 import CountryCard from "./components/CountryCard"
 import ToDos from "./components/ToDos"
 import Tabs from "../../utils/Tabs"
+import {getCountrySummary} from "./api";
 export default {
     name:"Index",
     components: { CountryList, CountryCard, ToDos, Tabs},
@@ -46,6 +45,8 @@ export default {
                 completed: false,
             }],
             graph_type: "confirmed",
+            country_list: [],
+            colours: ['primary', 'secondary', 'tertiary'],
         }
     },
     methods: {
@@ -53,6 +54,13 @@ export default {
             this.todos[id].completed = !this.todos[id].completed;
         }
     },
+    created() {
+        getCountrySummary().then(response => {
+            let countries = response.data.Countries;
+            countries.sort((a,b) => b.TotalConfirmed - a.TotalConfirmed);
+            this.country_list = countries.splice(1, 3).map(obj => obj.Slug);
+        })
+    }
 }
 </script>
 
