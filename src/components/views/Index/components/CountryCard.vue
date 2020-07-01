@@ -4,7 +4,7 @@
         <span class="flag-icon" :class="`flag-icon-${country_code}`"></span>
         <p>{{ country.replace('-', ' ') }}</p>
       </div>
-      <p class="number">100.2k</p>
+      <p class="number">{{ nice_number }}</p>
       <TrendChart
   :datasets="[
     {
@@ -49,13 +49,25 @@ export default {
         return {
             graph_data: [10, 50, 20, 100, 40, 60, 80],
             country_code: "",
+            graph_number: 0,
         };
+    },
+    computed: {
+        nice_number() {
+            if (1000 > this.graph_number) {
+                return this.graph_number;
+            } else if (1000000 > this.graph_number) {
+                return `${Math.round(this.graph_number / 100) / 10}K`;
+            }
+            return this.graph_number;
+        },
     },
     methods: {
         loadGraph() {
             getCountryData(this.country, this.graph_type).then(response => {
-                this.graph_data = response.data.filter(obj => obj.Province == "").map(obj => obj.Cases)
+                this.graph_data = response.data.filter(obj => obj.Province == "").map(obj => obj.Cases);
                 //this.graph_data = this.graph_data.slice(Math.max(this.graph_data.length - 200, 1));
+                this.graph_number = Math.max(...this.graph_data);
                 this.country_code = response.data[0].CountryCode.toLowerCase();
             }).catch(() => {
                 console.error("Failed to get data for the country " + this.country);
