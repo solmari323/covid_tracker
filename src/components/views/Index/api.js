@@ -1,3 +1,3 @@
 import {client} from '../../../api';
 
-export const getCountryData = country => client.get(`dayone/country/${country}/status/confirmed`);
+export const getCountryData = (country, data_type) => client.get(`dayone/country/${country}/status/${data_type}`);

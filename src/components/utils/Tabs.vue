@@ -1,14 +1,26 @@
 <template>
   <div class="tabs">
-      <h3 class="active">Active</h3>
-      <h3>Dead</h3>
-      <h3>Recovered</h3>
+      <h3 :class="{active: active === 'confirmed'}" @click="changeActive('confirmed')">Active</h3>
+      <h3 :class="{active: active === 'deaths'}" @click="changeActive('deaths')">Dead</h3>
+      <h3 :class="{active: active === 'recovered'}" @click="changeActive('recovered')">Recovered</h3>
   </div>
 </template>
 
 <script>
 export default {
-
+    data() {
+        return {
+            active: 'confirmed',
+        };
+    },
+    methods: {
+        changeActive(value) {
+            if (this.active !== value) {
+                this.active = value;
+                this.$emit('change', value);
+            }
+        },
+    },
 }
 </script>
 

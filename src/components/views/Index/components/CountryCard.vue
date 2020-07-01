@@ -40,6 +40,10 @@ export default {
     props: {
         colour: String,
         country: String,
+        graph_type: {
+            type: String,
+            default: "confirmed",
+        },
     },
     data() {
         return {
@@ -47,14 +51,26 @@ export default {
             country_code: "",
         };
     },
+    methods: {
+        loadGraph() {
+            getCountryData(this.country, this.graph_type).then(response => {
+                this.graph_data = response.data.filter(obj => obj.Province == "").map(obj => obj.Cases)
+                //this.graph_data = this.graph_data.slice(Math.max(this.graph_data.length - 200, 1));
+                this.country_code = response.data[0].CountryCode.toLowerCase();
+            }).catch(() => {
+                console.error("Failed to get data for the country " + this.country);
+            });
+        },
+    },
+    watch: {
+        graph_type: {
+            handler() {
+                this.loadGraph();
+            },
+        },
+    },
     created() {
-        getCountryData(this.country).then(response => {
-            this.graph_data = response.data.filter(obj => obj.Province == "").map(obj => obj.Cases)
-            //this.graph_data = this.graph_data.slice(Math.max(this.graph_data.length - 200, 1));
-            this.country_code = response.data[0].CountryCode.toLowerCase();
-        }).catch(() => {
-            console.error("Failed to get data for the country " + this.country);
-        });
+        this.loadGraph();
     }
 }
 </script>

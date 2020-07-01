@@ -11,12 +11,12 @@
     <ToDos :todos ="todos" @check-todo=markComplete>
     </ToDos>
 
-    <Tabs/>
+    <Tabs @change="v => { graph_type = v }"/>
 
     <CountryList>
-        <CountryCard colour="primary" country="united-kingdom"></CountryCard>
-        <CountryCard colour="secondary" country="japan"></CountryCard>
-        <CountryCard colour="tertiary" country="germany"></CountryCard>
+        <CountryCard colour="primary" country="united-kingdom" :graph_type="graph_type"></CountryCard>
+        <CountryCard colour="secondary" country="japan" :graph_type="graph_type"></CountryCard>
+        <CountryCard colour="tertiary" country="germany" :graph_type="graph_type"></CountryCard>
     </CountryList>
 
   </div>
@@ -44,7 +44,8 @@ export default {
                 id:2,
                 todo: "Watch Netflix",
                 completed: false,
-            }]
+            }],
+            graph_type: "confirmed",
         }
     },
     methods: {
