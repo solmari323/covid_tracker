@@ -4,7 +4,7 @@
         <img src="../../../assets/girl.svg" class="blurb-svg" alt="">
         <div>
             <h3>5 Symptoms of <br/>Covid-19</h3>
-            <p>Read more</p>
+            <p><a href="https://www.gov.uk/coronavirus">Read more</a></p>
         </div>
       </div>
 
