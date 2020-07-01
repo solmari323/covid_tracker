@@ -9,7 +9,9 @@
   },
   "dependencies": {
     "core-js": "^3.6.5",
-    "vue": "^2.6.11"
+    "flag-icon-css": "^3.5.0",
+    "vue": "^2.6.11",
+    "vue-trend-chart": "^0.15.2"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.4.0",
